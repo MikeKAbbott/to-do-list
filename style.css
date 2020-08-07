@@ -1,14 +1,16 @@
 .container{
-    margin:auto;
+    margin:100px 100px 100px 100px;
     text-align:center;
 }
 .grid{
    display:flex;
    justify-content: space-between;
+   margin-top:2rem;
+
 }
 .grid__item{
     width: 50%;
-
+    text-align: left;
 }
 .title{
     color:#2F4F4F;
@@ -20,8 +22,8 @@
     height:2rem;
 
 }
-.task-box{
-    margin:2rem 5rem 2rem 28rem;
+.tasks{
+    margin-left:25rem;
 }
 
 .checkbox{
@@ -29,7 +31,7 @@
     height: 1.3rem;
     background-color: white;
     border-radius: 50%;
-    vertical-align: middle;
+    vertical-align:middle;
     border: 1px solid;
     -webkit-appearance: none;
     outline: none;
@@ -40,6 +42,9 @@
 }
 .checkbox:checked {
     background-color: #2C3E50;
+}
+label{
+    vertical-align: middle;
 }
 .delete-button{
     background-color: white;
@@ -55,17 +60,7 @@
 .delete-button:focus{
     outline: none;
 }
-ul{
-    text-align: center;
-}
-li{
-    list-style-type: none;
-    text-align: left;
-    
-}
-li label{
-    font-size: 1.5rem;
-}
+
 
 
 

@@ -1,9 +1,9 @@
 
 function Task(){
     this.tasks = [];
-    this.input_field = document.getElementById("task");
-    this.task_list = document.getElementById("task-list")
-    this.delete_list = document.getElementById("delete-buttons")
+    this.input_field = document.getElementById("user-input");
+    this.task_list = document.getElementById("tasks")
+    this.delete_list = document.getElementById("actions")
     this.init() 
 };
 
@@ -18,34 +18,44 @@ Task.prototype.addEventListeners = function(){
 };
 
 Task.prototype.fillTasks = function(){
-    return;
+    for (task of Task.tasks){
+        if(!document.getElementById(task)){
+            var html = `<pre><input class="checkbox" type="checkbox" id= ${task}><label for=${task}> ${task}</label></pre>`;
+            var button = `<pre><button data-id=${task} class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button></pre>`
+            Task.task_list.innerHTML += html;
+            Task.delete_list.innerHTML += button;
+        }
+    }
 };
 
 Task.prototype.getInput = function(){
-    return document.getElementById("task").value;
+    return document.getElementById("user-input").value;
 };
 
 Task.prototype.addTask = function(event){
     var task = Task.getInput();
     if (event.keyCode === 13 && task){
-        var new_task = document.createElement('li');
-        var new_delete_button = document.createElement('li')
-        new_delete_button.innerHTML = '<button id='+ task +' class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button>'  
-        new_task.innerHTML = '<input class="checkbox" type="checkbox" id='+ task +'><label for='+ task +'>'+ task +'</label>';
-        Task.task_list.appendChild(new_task);
-        Task.delete_list.appendChild(new_delete_button)
+        Task.tasks.push(task)
         Task.input_field.value = "";
 
     }else{
         console.log("No task made")
     }
+    Task.fillTasks();
 }
+
 Task.prototype.removeTask = function(){
-    var item = document.querySelector("input[id="+ this.id +"]")
-    var label = document.querySelector("label[for="+ this.id+"]")
+    var item = Task.tasks.indexOf(this.dataset.id)
+    Task.tasks.splice(item)
+    document.getElementById(this.dataset.id).remove()
+    document.querySelector("label[for="+this.dataset.id+"]").remove()
     this.remove();
-    item.remove()
-    label.remove()
+    $('pre').each(function(){
+        if(!$(this).text() && !$(this).html()){
+            $(this).remove();
+        }
+    })
+    Task.fillTasks();
 
 }
 
