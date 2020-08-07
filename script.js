@@ -1,112 +1,66 @@
-            let $input = $("#userInput");
-            let $newButton = $("#clearButton");
-            let $addButton = $("#addButton");
-            let $date = $("#todaysDate");
-            const $numberTask = $("#taskCount");
-            let count = 0;
 
+function Task(){
+    this.tasks = [];
+    this.input_field = document.getElementById("task");
+    this.task_list = document.getElementById("task-list")
+    this.delete_list = document.getElementById("delete-buttons")
+    this.init() 
+};
 
+Task.prototype.init = function(){
+    this.addEventListeners();
+};
 
-            // create the date 
-            let currentDate = new Date();
-            let currentMonth = (((currentDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (currentDate.getMonth() + 1));
-            let newDate = currentMonth + "/" + currentDate.getDate() + "/" + currentDate.getFullYear();
-            $date.html(newDate);
+Task.prototype.addEventListeners = function(){
+    this.input_field.addEventListener("keyup", this.addTask)
+    $(document).on("click",".delete-button",this.removeTask)
+    $(document).on("change",".checkbox",this.completeTask)
+};
 
+Task.prototype.fillTasks = function(){
+    return;
+};
 
-            //add new task by pressing enter
-            $input.on('keypress', function (e) {
-                if (e.which == 13) {
-                    let $newTask = $("<li class ='li' ></li>");
-                    if (($input).val() == '') {
-                        alert("Please enter a task");
-                        $clearTask.empty();
-                        count = count;
-                    };
+Task.prototype.getInput = function(){
+    return document.getElementById("task").value;
+};
 
-                    if(count==6){
-                        alert("Has reached maxed task");
-                        $input.val("");
+Task.prototype.addTask = function(event){
+    var task = Task.getInput();
+    if (event.keyCode === 13 && task){
+        var new_task = document.createElement('li');
+        var new_delete_button = document.createElement('li')
+        new_delete_button.innerHTML = '<button id='+ task +' class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button>'  
+        new_task.innerHTML = '<input class="checkbox" type="checkbox" id='+ task +'><label for='+ task +'>'+ task +'</label>';
+        Task.task_list.appendChild(new_task);
+        Task.delete_list.appendChild(new_delete_button)
+        Task.input_field.value = "";
 
-                    }
-                    
-                    if(count < 6){
-                    $newTask.append($input.val());
-                    $("#taskBox").append($newTask);
-                    $input.val("");
-                    count += 1;
-                    $numberTask.html("Tasks: " + count);
-                    }
+    }else{
+        console.log("No task made")
+    }
+}
+Task.prototype.removeTask = function(){
+    var item = document.querySelector("input[id="+ this.id +"]")
+    var label = document.querySelector("label[for="+ this.id+"]")
+    this.remove();
+    item.remove()
+    label.remove()
 
-                    //remove the list item when clicked
-                    if (($newTask).click(function () {
-                            $newTask.remove();
-                            count -= 1;
-                            $numberTask.html("Tasks: " + count);
-                        }));
-                    if (($newTask).mouseover(function () {
-                            $($newTask).addClass("li-hover").removeClass("li");
-                        }));
-                    if (($newTask).mouseout(function () {
-                            $newTask.addClass("li").removeClass("li-hover");
-                        }));
+}
 
-                };
+Task.prototype.completeTask = function(){
+    label = document.querySelector('label[for='+ this.id +']')
+    html = new String(label.innerHTML)
+    if(this.checked){
+        label.innerHTML = html.strike();
+    }else{
+        var html = label.childNodes[0].innerHTML
+        label.removeChild(label.childNodes[0])
+        label.innerHTML = html
+    }
+}
 
-
-
-
-
-
-            });
-
-            //adds a new task with the button press
-            $addButton.click(function () {
-                if (($input).val() == '') {
-                    alert("Please enter a task");
-                    $clearTask.empty();
-                    count = count;
-                }
-                let $newTask = $("<li class='li' ></li>");
-                $newTask.append($input.val());
-                $("#taskBox").append($newTask);
-                $input.val("");
-                count += 1;
-                $numberTask.html("Tasks: " + count);
-                //remove the list item when clicked
-
-                if (($newTask).click(function () {
-                        $newTask.remove();
-                        count -= 1;
-                        $numberTask.html("Tasks: " + count);
-                    }));
-
-                if (($newTask).mouseover(function () {
-                        $($newTask).addClass("li-hover").removeClass("li");
-                    }));
-                if (($newTask).mouseout(function () {
-                        $newTask.addClass("li").removeClass("li-hover");
-                    }));
-
-
-
-            });
-
-            //clears all task
-            $newButton.click(function () {
-                $clearTask = $("#taskBox");
-                $clearBox = $("#taskBox");
-                $clearBox.empty();
-                $clearTask.empty();
-                count = 0;
-                $numberTask.html("Tasks: " + count);
-
-
-            });
-            //clears the pre-entered text once its clicked on
-            $input.click(function () {
-                $clearInput = $("#userInput");
-                $clearInput.val("");
-            });
-
-            
+$(window).on("load",function(){
+    window.Task = new Task();
+});
