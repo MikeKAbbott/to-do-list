@@ -1,51 +1,78 @@
 .container{
-    margin:100px 100px 100px 100px;
-    text-align:center;
+    width: 100%;
+    margin:0 auto;
+    max-width: 500px;
+    
 }
 .grid{
-   display:flex;
-   justify-content: space-between;
    margin-top:2rem;
+}
+.todo-list{
+    list-style: none;
+    margin-bottom: 20px;
+    padding:0;
+    
+}
+.todo-list li{
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 
+
+.todo-list li label{
+    vertical-align: middle;
 }
-.grid__item{
-    width: 50%;
-    text-align: left;
+.todo-list li span{
+  flex-grow: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 22px;
 }
-.title{
+
+.todo-title{
     color:#2F4F4F;
-    font-size: 3rem;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
-
-.new-task input{
-    width:30%;
+.todo-title h2{
+    margin-bottom: -1rem;
+    font-size: 4rem;
+}
+.todo-title img{
+    width:20%;
+}
+.user-input{
+   display:flex;
+   align-items: center;
+   justify-content: center;
+}
+.user-input input{
+    width:100%;
     height:2rem;
+}
 
-}
-.tasks{
-    margin-left:25rem;
-}
 
 .checkbox{
     width: 1.3rem;
     height: 1.3rem;
     background-color: white;
     border-radius: 50%;
-    vertical-align:middle;
     border: 1px solid;
     -webkit-appearance: none;
     outline: none;
     cursor: pointer;
-    margin-bottom: 1.2rem;
-    margin-right:1rem;
+
     
 }
 .checkbox:checked {
     background-color: #2C3E50;
 }
-label{
-    vertical-align: middle;
-}
+
 .delete-button{
     background-color: white;
     border:none;

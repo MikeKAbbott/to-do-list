@@ -1,9 +1,8 @@
 
 function Task(){
     this.tasks = [];
-    this.input_field = document.getElementById("user-input");
-    this.task_list = document.getElementById("tasks")
-    this.delete_list = document.getElementById("actions")
+    this.inputField = document.getElementById("user-input");
+    this.todoList = document.getElementById("todo-list")
     this.init() 
 };
 
@@ -12,7 +11,7 @@ Task.prototype.init = function(){
 };
 
 Task.prototype.addEventListeners = function(){
-    this.input_field.addEventListener("keyup", this.addTask)
+    this.inputField.addEventListener("keyup", this.addTask)
     $(document).on("click",".delete-button",this.removeTask)
     $(document).on("change",".checkbox",this.completeTask)
 };
@@ -20,10 +19,9 @@ Task.prototype.addEventListeners = function(){
 Task.prototype.fillTasks = function(){
     for (task of Task.tasks){
         if(!document.getElementById(task)){
-            var html = `<pre><input class="checkbox" type="checkbox" id= ${task}><label for=${task}> ${task}</label></pre>`;
-            var button = `<pre><button data-id=${task} class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button></pre>`
-            Task.task_list.innerHTML += html;
-            Task.delete_list.innerHTML += button;
+            var html = `<li id=${task}><input class="checkbox" type="checkbox"}><label for=${task}></label><span>${task}</span>
+            <button class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button></li>`;
+            Task.todoList.innerHTML += html;
         }
     }
 };
@@ -36,7 +34,7 @@ Task.prototype.addTask = function(event){
     var task = Task.getInput();
     if (event.keyCode === 13 && task){
         Task.tasks.push(task)
-        Task.input_field.value = "";
+        Task.inputField.value = "";
 
     }else{
         console.log("No task made")
@@ -45,29 +43,23 @@ Task.prototype.addTask = function(event){
 }
 
 Task.prototype.removeTask = function(){
-    var item = Task.tasks.indexOf(this.dataset.id)
-    Task.tasks.splice(item)
-    document.getElementById(this.dataset.id).remove()
-    document.querySelector("label[for="+this.dataset.id+"]").remove()
-    this.remove();
-    $('pre').each(function(){
-        if(!$(this).text() && !$(this).html()){
-            $(this).remove();
-        }
-    })
-    Task.fillTasks();
-
+    var parent = $(this).parent()
+    var index = Task.tasks.indexOf(parent[0].id)
+    Task.tasks.splice(index)
+    parent.remove()
 }
 
 Task.prototype.completeTask = function(){
-    label = document.querySelector('label[for='+ this.id +']')
-    html = new String(label.innerHTML)
+    var listItem = $(this).parent();
+    var span = $("span").filter(x => x.html == listItem.id)
+    span = span[0]
+    html = new String(span.innerHTML)
     if(this.checked){
-        label.innerHTML = html.strike();
+        span.innerHTML = html.strike();
     }else{
-        var html = label.childNodes[0].innerHTML
-        label.removeChild(label.childNodes[0])
-        label.innerHTML = html
+        var html = span.childNodes[0].innerHTML
+        span.removeChild(span.childNodes[0])
+        span.innerHTML = html
     }
 }
 
