@@ -1,4 +1,3 @@
-
 function Task(){
     this.tasks = [];
     this.inputField = document.getElementById("user-input");
@@ -11,20 +10,28 @@ Task.prototype.init = function(){
 };
 
 Task.prototype.addEventListeners = function(){
-    this.inputField.addEventListener("keyup", this.addTask)
     $(document).on("click",".add-button",this.addTask)
+    $(document).on("keyup",'#user-input',this.addTask)
     $(document).on("click",".delete-button",this.removeTask)
     $(document).on("change",".checkbox",this.completeTask)
 };
 
-Task.prototype.fillTasks = function(){
-    for (task of Task.tasks){
-        if(!document.getElementById(task)){
+Task.prototype.displayTasks = function(){
+    for (task of this.tasks){
+        if(!this.doesExist(task)){
             var html = `<li id=${task}><input class="checkbox" type="checkbox"><label for=${task}></label><span>${task}</span>
             <button class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button></li>`;
-            Task.todoList.innerHTML += html;
+            this.todoList.innerHTML += html;
         }
     }
+};
+
+Task.prototype.clearInput = function(){
+    this.inputField.value = "";
+}
+
+Task.prototype.doesExist = function(task){
+    return $("#" + task).length
 };
 
 Task.prototype.getInput = function(){
@@ -32,37 +39,32 @@ Task.prototype.getInput = function(){
 };
 
 Task.prototype.addTask = function(event){
-    var task = Task.getInput();
-    if ((event.which === 13 || event.type === "click") && task){
-        Task.tasks.push(task)
-        Task.inputField.value = "";
-
-    }else{
-        console.log("No task made")
+    var task = Todo.getInput();
+    if ((event.which === 13 || event.type === "click") && task && !Todo.tasks.includes(task)){
+        Todo.tasks.push(task)
+        Todo.clearInput()
+        Todo.displayTasks()
     }
-    Task.fillTasks();
 }
 
 Task.prototype.removeTask = function(){
-    var parent = $(this).parent()
-    var index = Task.tasks.indexOf(parent[0].id)
-    Task.tasks.splice(index)
+    var parent = $(this).parent()[0]
+    Todo.tasks = Todo.tasks.filter(x => x != parent.id)
     parent.remove()
 }
 
 Task.prototype.completeTask = function(){
-    var listItem = $(this).parent();
-    var span = $(listItem[0]).find("span")[0]
+    var listItem = $(this).parent()[0];
+    var span = $(listItem).find("span")[0]
     html = new String(span.innerHTML)
     if(this.checked){
         span.innerHTML = html.strike();
     }else{
-        var html = span.childNodes[0].innerHTML
-        span.removeChild(span.childNodes[0])
-        span.innerHTML = html
+        $(span).children().remove()
+        span.innerHTML = listItem.id
     }
 }
 
-$(window).on("load",function(){
-    window.Task = new Task();
+$(window).on("load", function(){
+    window.Todo = new Task();
 });
