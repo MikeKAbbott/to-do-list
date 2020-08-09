@@ -12,6 +12,7 @@ Task.prototype.init = function(){
 
 Task.prototype.addEventListeners = function(){
     this.inputField.addEventListener("keyup", this.addTask)
+    $(document).on("click",".add-button",this.addTask)
     $(document).on("click",".delete-button",this.removeTask)
     $(document).on("change",".checkbox",this.completeTask)
 };
@@ -19,7 +20,7 @@ Task.prototype.addEventListeners = function(){
 Task.prototype.fillTasks = function(){
     for (task of Task.tasks){
         if(!document.getElementById(task)){
-            var html = `<li id=${task}><input class="checkbox" type="checkbox"}><label for=${task}></label><span>${task}</span>
+            var html = `<li id=${task}><input class="checkbox" type="checkbox"><label for=${task}></label><span>${task}</span>
             <button class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button></li>`;
             Task.todoList.innerHTML += html;
         }
@@ -32,7 +33,7 @@ Task.prototype.getInput = function(){
 
 Task.prototype.addTask = function(event){
     var task = Task.getInput();
-    if (event.keyCode === 13 && task){
+    if ((event.which === 13 || event.type === "click") && task){
         Task.tasks.push(task)
         Task.inputField.value = "";
 
@@ -51,8 +52,7 @@ Task.prototype.removeTask = function(){
 
 Task.prototype.completeTask = function(){
     var listItem = $(this).parent();
-    var span = $("span").filter(x => x.html == listItem.id)
-    span = span[0]
+    var span = $(listItem[0]).find("span")[0]
     html = new String(span.innerHTML)
     if(this.checked){
         span.innerHTML = html.strike();
