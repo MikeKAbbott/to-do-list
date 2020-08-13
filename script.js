@@ -31,7 +31,7 @@ Task.prototype.clearInput = function(){
 }
 
 Task.prototype.doesExist = function(task){
-    return $("#" + task).length
+    return $("#" + task).length;
 };
 
 Task.prototype.getInput = function(){
