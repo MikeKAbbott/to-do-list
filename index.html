@@ -3,21 +3,26 @@
 
 <head>
     <title>Todo List</title>
+    <!-- Google fonts and style sheet-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
+  <!-- Main container div to have set margins-->
   <div class="container">
+    <!-- Title div contains the title, and clipboard image-->
     <div class="todo-title">
       <h2>My Todos</h2>
       <h3>Your daily planner</h3>
       <img src="./images/planner2.png">
     </div>
+    <!-- User input field, where the task is made-->
     <div class="user-input">
     <input id="user-input" type="text" placeholder="Eg. Create a todo list">
     <button type="button" class="add-button" id="add-button">+</button>
     </div>
-    <div id="task-box" class="grid">
+    <!-- Where the tasks are display-->
+    <div>
       <ul class="todo-list" id="todo-list"></ul>
     </div>
   </div>
