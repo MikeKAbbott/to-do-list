@@ -33,7 +33,7 @@ Task.prototype.displayTasks = function(){
     for (task of this.tasks){
         if(!this.doesExist(task)){
             var html = `<li id=${task}><input class="checkbox" type="checkbox"><label for=${task}></label><span>${task}</span>
-            <button class="delete-button"><img src="./images/itrash-50.png" alt="Delete"></button></li>`;
+            <button class="delete-button"><img src="./images/itrash-50.png" alt="trash can"></button></li>`;
             this.todoList.innerHTML += html;
         }
     }
